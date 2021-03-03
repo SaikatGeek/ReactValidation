@@ -12,27 +12,42 @@ const errorMessage = {
 const validMessage = {
   isValid: 'form-control is-valid',
   emailStatus: false,
-  passwordStatus: false
+  passwordStatus: false,
+  disabled: false
 }
 
 if(passwordRef.current.value){
   if(passwordRef.current.value.length > 0 && passwordRef.current.value.length < 8 ){
     errorHas.password = true;
+    validMessage.disabled = true;
   }else{
     validMessage.passwordStatus= true;
   }
 }
 
-if(emailRef.current.value){  
-
-  if (/^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/.test(emailRef.current.value)) {
+if(emailRef.current.value){
+  const validRegex = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;  
+  if (emailRef.current.value.match(validRegex)) {
     validMessage.emailStatus= true;
   }
   else{
     errorHas.email = true;
+    validMessage.disabled = true;
   }
+}
+if(!emailRef.current.value || !passwordRef.current.value){
+  validMessage.disabled = true;
 }
 
 
 //Class Name
 className={ errorHas.password ? errorMessage.isInvalid : validMessage.passwordStatus ? validMessage.isValid:'form-control' }
+
+//Button 
+<button  
+  disabled={ validMessage.disabled }
+  onClick={submitForm} 
+  className="btn btn-primary mb-3"
+>
+  Login
+</button>   
