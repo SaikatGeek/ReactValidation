@@ -32,3 +32,7 @@ if(emailRef.current.value){
     errorHas.email = true;
   }
 }
+
+
+//Class Name
+className={ errorHas.password ? errorMessage.isInvalid : validMessage.passwordStatus ? validMessage.isValid:'form-control' }
