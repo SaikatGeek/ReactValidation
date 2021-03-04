@@ -1,3 +1,7 @@
+const [values, setValues] = useState({});
+const passwordRef = useRef('');
+const emailRef = useRef('');
+
 const errorHas = {
   password: false,
   email: false
@@ -35,10 +39,24 @@ if(emailRef.current.value){
     validMessage.disabled = true;
   }
 }
+
 if(!emailRef.current.value || !passwordRef.current.value){
   validMessage.disabled = true;
 }
 
+const submitForm = () =>{
+  Api.login(values)
+    .then(response => {        
+      console.log(response.data);
+    })
+    .catch(e => {
+      console.log(e);
+    });
+}
+
+const inputHandle = (e) => {    
+  setValues({...values, [e.target.name]:e.target.value}); 
+} 
 
 //Class Name
 className={ errorHas.password ? errorMessage.isInvalid : validMessage.passwordStatus ? validMessage.isValid:'form-control' }
